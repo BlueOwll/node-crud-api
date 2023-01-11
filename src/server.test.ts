@@ -1,13 +1,15 @@
 import { server } from './server';
-import * as request  from 'supertest';
+import request  from 'supertest';
 
 
 
-describe("GET / - a simple api endpoint", () => {
-  it("Hello API Request", async () => {
-    const result = await request(server).get("/");
-    expect(result.text).toEqual("hello");
-    expect(result.statusCode).toEqual(200);
+describe('GET api/user', function() {
+  it('responds with json', async () => {
+  const response = await request(server).get('/api/users')
+
+  expect(response.status).toBe(200)
+  expect(response.body).toStrictEqual([])
+  
   });
 });
 
