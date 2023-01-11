@@ -10,5 +10,5 @@
     "moduleResolution": "nodenext",
     "sourceMap": true
   },
-  "files": ["src/server.ts"]
+  "files": ["src/index.ts"]
 }

@@ -8,7 +8,7 @@ const { node } = require("webpack");
 const isProduction = process.env.NODE_ENV == "production";
 
 const config = {
-  entry: "./src/server.ts",
+  entry: "./src/index.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
   },
