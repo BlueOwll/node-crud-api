@@ -2,6 +2,7 @@
 module.exports = {
   preset: 'ts-jest/presets/default-esm',
   testEnvironment: 'node',
+  verbose: true,
   moduleFileExtensions: [
     'ts',
     'js'
@@ -19,4 +20,3 @@ module.exports = {
     //'^(\\.{1,2}/.*)\\.js$': '$1',
   },
 };
-//'(.+)\\.js': '$1'

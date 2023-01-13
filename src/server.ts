@@ -1,13 +1,13 @@
 
-import http from "http";
-import { IUser } from "./models/user.js";
-import { DataBase } from "./models/database.js";
+import http from 'http';
+import { IUser } from './models/user.js';
+import { DataBase } from './models/database.js';
 
 enum METHODS {
-  get = "GET",
-  post = "POST",
-  put = "PUT",
-  delete = "DELETE",
+  get = 'GET',
+  post = 'POST',
+  put = 'PUT',
+  delete = 'DELETE',
 }
 
 enum CODES {
@@ -15,23 +15,25 @@ enum CODES {
   CREATED = 201,
   NOTFOUND = 404,
   BADREQUEST = 400,
+  DELETED = 204,
+  SERVERERROR = 500
 }
 
 enum ERRORS {
   NOTFOUNDRESOURSE = 'Resource not found',
   NOTFOUNDUSER = 'User not found',
-
+  SERVERERROR = 'Server error'
 }
 
 const dataBase = new DataBase();
 
 export const server = http.createServer((req, res) => {
   //res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.setHeader("Content-Type", "application/json");
-  console.log(req.url);
+  res.setHeader('Content-Type', 'application/json');
+  // console.log(req.url);
 
-  if (req.url === "/api/users") {
-    let body = "";
+  if (req.url === '/api/users') {
+    let body = '';
     switch (req.method) {
       case METHODS.get:
         res.writeHead(CODES.OK);
@@ -39,18 +41,18 @@ export const server = http.createServer((req, res) => {
         break;
 
       case METHODS.post:
-        console.log("POST");
-        req.on("data", (data) => {
+        // console.log('POST');
+        req.on('data', (data) => {
           body += data;
         });
-        req.on("end", function () {
+        req.on('end', function () {
           try {
             const newUser = dataBase.addUser(body);
             res.writeHead(CODES.CREATED);
             res.end(JSON.stringify(newUser));
           } catch (e) {
             res.writeHead(CODES.BADREQUEST);
-            res.end({ error: e.message });
+            res.end(JSON.stringify({ error: e.message }));
           }
         });
         break;
@@ -59,10 +61,13 @@ export const server = http.createServer((req, res) => {
         res.writeHead(CODES.NOTFOUND);
         res.end(JSON.stringify({ error: ERRORS.NOTFOUNDRESOURSE }));
     }
-  } else if (req.url.startsWith("/api/users/")) {
-    const userid = req.url.replace("/api/users/", "");
+  } else if (req.url === '/api/error') {
+    res.writeHead(CODES.SERVERERROR);
+        res.end(JSON.stringify({ error: ERRORS.SERVERERROR }));
+  }else if (req.url.startsWith('/api/users/')) {
+    const userid = req.url.replace('/api/users/', '');
     let user: IUser;
-    let body = "";
+    let body = '';
     switch (req.method) {
       case METHODS.get:
         try {
@@ -76,15 +81,15 @@ export const server = http.createServer((req, res) => {
           }
         } catch (e) {
           res.writeHead(CODES.BADREQUEST);
-          res.end({ error: e.message });
+          res.end(JSON.stringify({ error: e.message }));
         }
 
         break;
       case METHODS.put:
-        req.on("data", (data) => {
+        req.on('data', (data) => {
           body += data;
         });
-        req.on("end", () => {
+        req.on('end', () => {
           try {
             user = dataBase.putUser(userid, body);
             if (user) {
@@ -96,7 +101,7 @@ export const server = http.createServer((req, res) => {
             }
           } catch (e) {
             res.writeHead(CODES.BADREQUEST);
-            res.end({ error: e.message });
+            res.end(JSON.stringify({ error: e.message }));
           }
         });
         break;
@@ -104,7 +109,7 @@ export const server = http.createServer((req, res) => {
         try {
           user = dataBase.deleteUser(userid);
           if (user) {
-            res.writeHead(CODES.OK);
+            res.writeHead(CODES.DELETED);
             res.end(JSON.stringify(user));
           } else {
             res.writeHead(CODES.NOTFOUND);
@@ -112,7 +117,7 @@ export const server = http.createServer((req, res) => {
           }
         } catch (e) {
           res.writeHead(CODES.BADREQUEST);
-          res.end({ error: e.message });
+          res.end(JSON.stringify({ error: e.message }));
         }
         break;
       default:

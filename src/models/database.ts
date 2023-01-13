@@ -30,6 +30,9 @@ export class DataBase {
     Object.values(newUser).forEach((value) => {
       if (value === undefined) throw new Error(`Missing required fields`);
     });
+    if ( !this.isValidUserFields(newUser)) {
+      throw new Error(`Invalid user data`);
+    } 
     this.dataBase.users.push(newUser);
     return newUser;
   }
@@ -63,14 +66,39 @@ export class DataBase {
     if (isValid(userId)) {
       const userIndex = this.dataBase.users.findIndex((item) => item.id === userId);
       if (userIndex === -1) return undefined;
-      const user = {...this.dataBase.users[userIndex]};
-      user.username = newUserData.username === undefined ? null : newUserData.username;
-      user.age = newUserData.age === undefined ? null : newUserData.age;
-      user.hobbies = newUserData.hobbies === undefined ? null : newUserData.hobbies;
-      this.dataBase.users[userIndex] = user;   
-      console.log(user);   
-      return user;
+
+      const newUser: IUser = {
+        id: userId,
+        username: newUserData.username,
+        age: newUserData.age,
+        hobbies: newUserData.hobbies
+      }
+      Object.values(newUser).forEach((value) => {
+        if (value === undefined) throw new Error(`Missing required fields`);
+      });
+      if ( !this.isValidUserFields(newUser)) {
+        throw new Error(`Invalid user data`);
+      } 
+      // const user = {...this.dataBase.users[userIndex]};
+      // user.username = newUserData.username === undefined ? null : newUserData.username;
+      // user.age = newUserData.age === undefined ? null : newUserData.age;
+      // user.hobbies = newUserData.hobbies === undefined ? null : newUserData.hobbies;
+      this.dataBase.users[userIndex] = newUser;   
+      console.log(newUser);   
+      return newUser;
     } 
     throw new Error('Invalid user id');
+  }
+
+  private isValidAge(age: any) {
+    if (typeof age === 'number' && age >= 0 && age <= 150) return true;
+    return false;
+  }
+
+  private isValidUserFields(user: IUser) {
+    if ( typeof user.username === 'string' && this.isValidAge(user.age) && Array.isArray(user.hobbies)) {
+      return true;
+    }   
+    return false;
   }
 }
