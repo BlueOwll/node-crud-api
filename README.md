@@ -26,13 +26,14 @@ To run tests use script:
 ### Endpoints.
  - /api/users - GET - get list of users
  - /api/users - POST - create user
-request body: 
-        {
-          username: string, required,
-          age: number, required,
-          hobbies: string[], required
-        }
-if some fields are absent error 400 occures.
+request body:   
+    {  
+        username: string, required,  
+        age: number, required,  
+        hobbies: string[], required  
+    }  
+    
+if some fields are absent error 400 occures.  
 if some fields are not valid error 400 occures
 
  - /api/users/:id - GET - get user for id
