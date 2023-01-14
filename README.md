@@ -12,21 +12,26 @@ Before starting create file **'.env'** in project root directory that contents:
 ### Scripts.  
 
 To run application in development mode with nodemon use script:
+
     npm run start
 
 To run application in development mode use script:
+
     npm run run:dev
 
 To build application and run in production mode use script:
+
     npm run run:prod
 
 To run tests use script:
+
     npm run test
 
 ### Endpoints.
  - /api/users - GET - get list of users
  - /api/users - POST - create user
 request body:   
+
     {  
         username: string, required,  
         age: number, required,  
