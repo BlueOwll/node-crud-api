@@ -2,13 +2,16 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
-    "module": "ESNext",
+    
     "target": "ES6",
     "allowJs": true,
     "checkJs": true,
     "esModuleInterop": true,
-    "moduleResolution": "nodenext",
-    "sourceMap": true
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "module": "CommonJS",
+
+
   },
-  "files": ["src/index.ts"]
+  "files": ["src/index.ts"],
 }

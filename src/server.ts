@@ -1,7 +1,7 @@
 
 import http from 'http';
-import { IUser } from './models/user.js';
-import { DataBase } from './models/database.js';
+import { IUser } from './models/user';
+import { DataBase } from './models/database';
 
 enum METHODS {
   get = 'GET',

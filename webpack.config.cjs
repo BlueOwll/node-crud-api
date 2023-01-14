@@ -11,12 +11,14 @@ const config = {
   entry: "./src/index.ts",
   output: {
     path: path.resolve(__dirname, "dist"),
+    filename: 'bundle.js',
   },
   // devServer: {
   //   open: true,
   //   host: "localhost",
   // },
   target: "node",
+
   plugins: [
     new NodemonPlugin(), // Dong
 
@@ -24,10 +26,20 @@ const config = {
   module: {
     rules: [
       {
+
+test: /\.(js)$/,
+
+         resolve: {
+           fullySpecified: false,
+         }},  
+      {
         test: /\.(ts|tsx)$/i,
         loader: "ts-loader",
         exclude: ["/node_modules/"],
-      },
+        resolve: {
+          fullySpecified: false,
+        }}, 
+      
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: "asset",

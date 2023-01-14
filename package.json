@@ -6,16 +6,17 @@
   "scripts": {
     "test": "jest",
     "build": "webpack --mode=production --node-env=production",
-    "build:dev": "webpack --mode=development",
-    "build:prod": "webpack --mode=production --node-env=production",
     "start": "nodemon  --esm  src/index.ts",
-    "run": "ts-node  --esm  src/index.ts"
+    "run": "node ./dist/bundle.js",
+    "run:dev": "ts-node  --esm  src/index.ts",
+    "run:prod": "npm run build && npm run run"
+    
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/BlueOwll/node-crud-api.git"
   },
-  "type": "module",
+ 
   "author": "",
   "license": "ISC",
   "bugs": {

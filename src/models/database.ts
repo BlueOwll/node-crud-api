@@ -1,4 +1,4 @@
-import { IUser, IUserData } from './user.js';
+import { IUser, IUserData } from './user';
 import { v4 as uuid, validate as isValid } from 'uuid';
 
 interface IDatabase {
